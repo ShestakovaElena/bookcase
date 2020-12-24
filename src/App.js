@@ -5,7 +5,7 @@ import Header from './components/Header'
 import { Route } from 'react-router-dom';
 import BooksDataService from "./services/book.service";
 import EditBook from './components/EditBook'
-import PrivateRoute from './PrivateRoute'
+import PrivateRoute from './components/PrivateRoute'
 
 import './App.css';
 
@@ -14,15 +14,10 @@ class App extends React.Component {
     super(props);
     this.state = {
       books: [],
-      currentTutorial: null,
-      currentIndex: -1,
       authenticated: false,
-      currentUser: null,
+      
     };
 
-    //this.unsubscribe = undefined;
-    //this.refreshList = this.refreshList.bind(this);
-    //this.setActiveTutorial = this.setActiveTutorial.bind(this);
     this.onDataChange = this.onDataChange.bind(this);
   }
   
@@ -35,10 +30,6 @@ class App extends React.Component {
     BooksDataService.getAll().orderBy("title", "asc").onSnapshot(this.onDataChange);
     
   }
-
-  /*componentWillUnmount() {
-    this.unsubscribe();
-  }*/
 
   onDataChange(items) {
     let renderedBooks = [];
@@ -58,23 +49,9 @@ class App extends React.Component {
       books: renderedBooks,
     });
   }
-/*
-  refreshList() {
-    this.setState({
-      currentTutorial: null,
-      currentIndex: -1,
-    });
-  }
-  
-  setActiveTutorial(tutorial, index) {
-    this.setState({
-      currentTutorial: tutorial,
-      currentIndex: index,
-    });
-  }*/
+
   render(){
     return(
-      
       <div className='App'>
         <Header />  
         <Route exact path="/">
@@ -85,8 +62,6 @@ class App extends React.Component {
         </Route>
         <PrivateRoute books={this.state.books} component={EditBook } authenticated={this.state.authenticated} path="/books/:id">
         </PrivateRoute>
-         
-                 
       </div>
     )
   }
